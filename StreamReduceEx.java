@@ -1,12 +1,20 @@
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class StreamReduceEx {
 
 	public static void main(String[] args) {
-		ExCollections c = new ExCollections();
-		c.persons.stream().reduce((p1, p2) -> p1.age > p2.age ? p1:p2).ifPresent(System.out::println);
-
+		Collections c = new Collections();
+		System.out.print("Eldest Person: ");
+		Optional<Person> eldest = c.persons.stream().reduce((p1, p2) -> p1.age < p2.age ? p1:p2);
+		eldest.ifPresent(System.out::println);
+		
+		int sumOfAges = c.persons.stream().mapToInt(Person :: getAge).sum();
+		System.out.println("Sum of Agges :" + sumOfAges);
+		
+		System.out.print(c.persons.stream().count());
+	
 	}
 
 }
@@ -30,8 +38,12 @@ class Person {
 		this.age = age;
 	}
 	
+	public int getAge() {
+		return age;
+	}
+	
 	@Override
 	public String toString() {
-		return name;
+		return name +" " + age;
 	}
 }
